@@ -7,10 +7,10 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root{
-  --forest:  #152219;   /* тёмный фон */
-  --forest2: #1B2C21;   /* тёмный фон, на тон светлее */
-  --line:    #33473A;   /* волосяные линии на тёмном */
-  --sage:    #9AAC9D;   /* вторичный текст на тёмном */
+  --forest:  #143A2A;   /* тёмный фон — цвет из настоящего логотипа */
+  --forest2: #1C4834;   /* тёмный фон, на тон светлее */
+  --line:    #335544;   /* волосяные линии на тёмном */
+  --sage:    #9CB2A4;   /* вторичный текст на тёмном */
   --pale:    #EDEDE3;   /* основной текст на тёмном */
   --paper:   #F5F1E6;   /* светлые секции — бумага */
   --paper2:  #EDE7D6;   /* карточки на бумаге */
@@ -19,7 +19,8 @@
   --amber:   #E9C77B;   /* акцент — кнопки, тепло */
   --amber-ink: #2A2013;
 
-  --display: 'Oswald', 'Arial Narrow', sans-serif;
+  --hero:    'Anton', 'Oswald', sans-serif;         /* только огромный вордмарк героя */
+  --display: 'Oswald', 'Arial Narrow', sans-serif;  /* заголовки разделов, эйбрау */
   --body:    'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --ease: cubic-bezier(.2,.7,.2,1);
@@ -113,24 +114,14 @@ svg{ display:block; }
   align-items:center;
   gap:1rem;
   padding:.9rem var(--pad);
-  background:rgba(21,34,25,.86);
+  background:rgba(20,58,42,.86);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   border-bottom:1px solid rgba(237,237,227,.1);
 }
 
-.brand{ display:flex; align-items:center; gap:.6rem; margin-right:auto; }
-.brand__mark{ width:26px; height:26px; flex:none; }
-.brand__mark circle,
-.brand__mark path{ fill:none; stroke:var(--amber); stroke-width:2; stroke-linecap:round; }
-.brand__word{
-  font-family:var(--display);
-  font-weight:600;
-  font-size:.92rem;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--pale);
-}
+.brand{ display:flex; align-items:center; margin-right:auto; }
+.brand__mark{ height:34px; width:auto; display:block; }
 
 .topbar__nav{
   display:none;
@@ -168,12 +159,21 @@ svg{ display:block; }
   object-fit:cover;
   filter:brightness(.6) saturate(.82) contrast(1.03);
 }
+/* лесная тонировка: заливаем фото цветом бренда в режиме color —
+   сохраняет светлоту кадра, но подчиняет его зелени логотипа */
+.hero__bg::before{
+  content:"";
+  position:absolute; inset:0;
+  background:var(--forest);
+  mix-blend-mode:color;
+  opacity:.55;
+}
 .hero__bg::after{
   content:"";
   position:absolute; inset:0;
   background:linear-gradient(to bottom,
-    rgba(21,34,25,.55) 0%, rgba(21,34,25,.2) 30%,
-    rgba(21,34,25,.32) 68%, rgba(21,34,25,.82) 100%);
+    rgba(20,58,42,.6) 0%, rgba(20,58,42,.22) 30%,
+    rgba(20,58,42,.34) 68%, rgba(20,58,42,.85) 100%);
 }
 
 .badge{
@@ -181,7 +181,7 @@ svg{ display:block; }
   top:clamp(5.5rem,13vh,7.5rem);
   padding:.55rem 1rem;
   border-radius:999px;
-  background:rgba(21,34,25,.55);
+  background:rgba(20,58,42,.55);
   border:1px solid rgba(237,237,227,.22);
   backdrop-filter:blur(6px);
   font-size:.78rem;
@@ -193,11 +193,32 @@ svg{ display:block; }
 
 .hero__body{ display:flex; flex-direction:column; align-items:center; gap:1.1rem; }
 
+.hero__crest-wrap{
+  position:relative;
+  display:inline-flex;
+  margin-bottom:.3rem;
+}
+.hero__crest-wrap::before{
+  /* тёплая подсветка позади герба — иначе кремовый тон тонет в тёмном фото */
+  content:"";
+  position:absolute;
+  left:50%; top:50%;
+  width:220%; height:220%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse, rgba(233,199,123,.3) 0%, transparent 68%);
+  z-index:-1;
+}
+.hero__crest{
+  height:clamp(52px, 11vw, 84px);
+  width:auto;
+  filter:drop-shadow(0 6px 22px rgba(0,0,0,.5)) brightness(1.12) contrast(1.08);
+}
+
 .wordmark{
-  font-family:var(--display);
-  font-weight:700;
-  font-size:clamp(3rem, 15vw, 7.5rem);
-  line-height:.92;
+  font-family:var(--hero);
+  font-weight:400;
+  font-size:clamp(3.1rem, 16vw, 8.2rem);
+  line-height:.88;
   letter-spacing:.01em;
   text-transform:uppercase;
   color:var(--pale);
@@ -363,6 +384,90 @@ svg{ display:block; }
   .gallery{ grid-template-columns:repeat(3, 1fr); }
 }
 
+/* ═══════════ ЦЕНА ═══════════ */
+
+.price{
+  max-width:640px;
+  margin-inline:auto;
+  display:flex;
+  flex-direction:column;
+  gap:1.6rem;
+}
+
+.price__table{
+  display:flex;
+  flex-direction:column;
+  border-top:1px solid rgba(237,237,227,.16);
+}
+.price__table li{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:1rem;
+  padding:1rem 0;
+  border-bottom:1px solid rgba(237,237,227,.16);
+}
+.price__table span{
+  font-family:var(--body);
+  font-weight:500;
+  font-size:.95rem;
+  color:var(--sage);
+}
+.price__table b{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(1.2rem, 4vw, 1.5rem);
+  color:var(--pale);
+}
+
+.price__note{
+  font-size:.84rem;
+  color:var(--sage);
+  line-height:1.7;
+}
+.price__note--sub{ color:rgba(154,172,157,.7); font-size:.78rem; }
+
+.price__included{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+}
+.price__included li{
+  padding:.5rem .95rem;
+  border-radius:999px;
+  border:1px solid rgba(233,199,123,.4);
+  color:var(--amber);
+  font-size:.82rem;
+  font-weight:500;
+}
+
+.price__extra{
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+}
+.price__extra div{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:1rem;
+  padding-bottom:.6rem;
+  border-bottom:1px dashed rgba(237,237,227,.14);
+}
+.price__extra dt{
+  font-size:.86rem;
+  color:var(--sage);
+  font-weight:400;
+}
+.price__extra dd{
+  margin:0;
+  font-family:var(--body);
+  font-weight:600;
+  font-size:.86rem;
+  color:var(--pale);
+  white-space:nowrap;
+}
+
 /* ═══════════ БРОНИРОВАНИЕ ═══════════ */
 
 .stay{
@@ -376,6 +481,14 @@ svg{ display:block; }
 }
 .stay__p{ font-size:.98rem; color:var(--sage); line-height:1.85; max-width:36ch; }
 .stay__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:.85rem; margin-top:.5rem; }
+.stay__gift{
+  margin-top:.6rem;
+  font-size:.84rem;
+  color:var(--sage);
+  line-height:1.7;
+  max-width:32ch;
+}
+.stay__gift::before{ content:"✨ "; }
 
 /* ═══════════ КОНТАКТЫ / ФУТЕР ═══════════ */
 
@@ -393,7 +506,8 @@ svg{ display:block; }
   padding-bottom:clamp(2.5rem, 7vh, 3.5rem);
   border-bottom:1px solid rgba(237,237,227,.14);
 }
-.kontakty__val{ margin-top:.5rem; font-size:.95rem; line-height:1.6; }
+.kontakty__val{ margin-top:.5rem; font-size:.95rem; line-height:1.9; }
+.kontakty__val a{ display:inline-block; }
 .kontakty__val a:hover{ color:var(--amber); }
 
 .colophon{
@@ -412,7 +526,10 @@ svg{ display:block; }
 }
 
 @media (min-width:640px){
-  .kontakty__grid{ grid-template-columns:repeat(3, 1fr); }
+  .kontakty__grid{ grid-template-columns:repeat(2, 1fr); }
+}
+@media (min-width:960px){
+  .kontakty__grid{ grid-template-columns:repeat(4, 1fr); }
 }
 
 /* ═══════════ ДВИЖЕНИЕ ═══════════ */
